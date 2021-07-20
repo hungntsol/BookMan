@@ -10,17 +10,15 @@ namespace BookMan.ConsoleApp.Views
     /// <summary>
     /// View list of books
     /// </summary>
-    internal class BookListView
+    internal class BookListView : ViewBase
     {
-        protected Book[] books;
 
         /// <summary>
         /// Constructor list of books
         /// </summary>
         /// <param name="books">Book[] books</param>
-        public BookListView(Book[] books)
+        public BookListView(Book[] books) : base(books)
         {
-            this.books = books;
         }
 
         /// <summary>
@@ -28,30 +26,19 @@ namespace BookMan.ConsoleApp.Views
         /// </summary>
         public void Render()
         {
-            if (books.Length == 0)
+            if (((Book[]) model).Length == 0)
             {
                 ViewHelp.WriteLine("No book is found", ConsoleColor.Red);
             }
             else
             {
                 ViewHelp.WriteLine("List of books");
-                foreach (Book book in books)
+                foreach (Book book in model as Book[])
                 {
                     ViewHelp.WriteLine($"Id: {book.Id}, title: {book.Title}");
                 }
             }
         }
-
-        /// <summary>
-        /// Write json data to file
-        /// </summary>
-        /// <param name="_path">string path</param>
-        public void RenderToFile(string _path)
-        {
-            ViewHelp.WriteLine($"Saving data to: {_path}");
-            var jsonData = JsonConvert.SerializeObject(books);
-            File.WriteAllText(_path, jsonData);
-            ViewHelp.WriteLine("Done");
-        }
+        
     }
 }

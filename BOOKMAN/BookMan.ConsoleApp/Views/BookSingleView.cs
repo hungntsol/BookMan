@@ -10,25 +10,20 @@ namespace BookMan.ConsoleApp.Views
     /// <summary>
     /// View information of a book(internal)
     /// </summary>
-    internal class BookSingleView
+    internal class BookSingleView : ViewBase
     {
-        protected readonly Book book;
-
         /// <summary>
         /// Constructor for BookSingleView class
         /// </summary>
-        /// <param name="book">Book for displaying</param>
-        public BookSingleView(Book book)
-        {
-            this.book = book;
-        }
+        /// <param name="book">Book</param>
+        public BookSingleView(Book book) : base(book) { }
 
         /// <summary>
         /// View book information render method
         /// </summary>
         public void Render()
         {
-            if (book == null) // Check book is null or not
+            if (model == null) // Check book is null or not
             { 
                 ViewHelp.WriteLine("This book is not existed !", ConsoleColor.Red);
                 return;
@@ -39,30 +34,19 @@ namespace BookMan.ConsoleApp.Views
                 /*
                  * Print book information to console 
                  */
-                Console.WriteLine($"Authors:        {book.Authors}");
-                Console.WriteLine($"Title:          {book.Title}");
-                Console.WriteLine($"Publisher:      {book.Publisher}");
-                Console.WriteLine($"Year:           {book.Year}");
-                Console.WriteLine($"Edition:        {book.Edition}");
-                Console.WriteLine($"Tags:           {book.Tags}");
-                Console.WriteLine($"Description:    {book.Description}");
-                Console.WriteLine($"Rating:         {book.Rating}");
-                Console.WriteLine($"Reading:        {book.Reading}");
-                Console.WriteLine($"File:           {book.File}");
-                Console.WriteLine($"FileName:       {book.FileName}");
+                var model = base.model as Book;
+                Console.WriteLine($"Authors:        {model.Authors}");
+                Console.WriteLine($"Title:          {model.Title}");
+                Console.WriteLine($"Publisher:      {model.Publisher}");
+                Console.WriteLine($"Year:           {model.Year}");
+                Console.WriteLine($"Edition:        {model.Edition}");
+                Console.WriteLine($"Tags:           {model.Tags}");
+                Console.WriteLine($"Description:    {model.Description}");
+                Console.WriteLine($"Rating:         {model.Rating}");
+                Console.WriteLine($"Reading:        {model.Reading}");
+                Console.WriteLine($"File:           {model.File}");
+                Console.WriteLine($"FileName:       {model.FileName}");
             }
-        }
-        
-        /// <summary>
-        /// Write json data to file
-        /// </summary>
-        /// <param name="_path">string path</param>
-        public void RenderToFile(string _path)
-        {
-            ViewHelp.WriteLine($"Saving data to: {_path}");
-            var jsonData = JsonConvert.SerializeObject(book);
-            File.WriteAllText(_path, jsonData);
-            ViewHelp.WriteLine("Done");
         }
     }
 }

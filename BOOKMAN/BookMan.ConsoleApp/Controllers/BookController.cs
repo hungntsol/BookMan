@@ -26,7 +26,7 @@ namespace BookMan.ConsoleApp.Controllers
             // render book view
             bookSingleView.Render();
             
-            if (!string.IsNullOrEmpty(_path)) bookSingleView.RenderToFile(_path);
+            if (!string.IsNullOrEmpty(_path)) bookSingleView.RenderJsonToFile(_path);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace BookMan.ConsoleApp.Controllers
             BookListView bookListView = new BookListView(books);
             bookListView.Render();
 
-            if (!string.IsNullOrEmpty(_path)) bookListView.RenderToFile(_path);
+            if (!string.IsNullOrEmpty(_path)) bookListView.RenderJsonToFile(_path);
         }
     }
 }

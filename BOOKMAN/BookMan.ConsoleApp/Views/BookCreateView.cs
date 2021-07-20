@@ -6,15 +6,12 @@ namespace BookMan.ConsoleApp.Views
     /// <summary>
     /// View create new book class (internal)
     /// </summary>
-    internal class BookCreateView
+    internal class BookCreateView : ViewBase
     {
         /// <summary>
         /// Constructor init create book view
         /// </summary>
-        public BookCreateView()
-        {
-            
-        }
+        public BookCreateView() { }
 
         /// <summary>
         /// Create book render method
