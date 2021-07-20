@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using BookMan.ConsoleApp.Controllers;
 using BookMan.ConsoleApp.DataServices;
@@ -14,9 +15,16 @@ namespace BookMan.ConsoleApp
             var context = new SimpleDataAccess();
             BookController bookController = new BookController(context);
             
-            Router.Instance.Register("about", About);
-            Router.Instance.Register("help", Help);
+            Router r = Router.Instance;
             
+            r.Register("about", About);
+            r.Register("help", Help);
+            r.Register("update", p => bookController.Update(int.Parse(p["id"])));
+            r.Register("create", p => bookController.Create());
+            r.Register("list", p => bookController.ListView());
+            r.Register("list file", p => bookController.ListView(p["path"]));
+            r.Register("single", p => bookController.Single(int.Parse(p["id"])));
+            r.Register("single file", p => bookController.Single(int.Parse(p["id"]), p["path"]));
             
             bool isBreak = false;
             while (!isBreak)

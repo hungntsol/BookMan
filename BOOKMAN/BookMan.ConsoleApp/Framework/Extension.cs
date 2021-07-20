@@ -7,7 +7,7 @@
         /// </summary>
         /// <param name="value">string value</param>
         /// <returns>Int32 value</returns>
-        public static int ToInt(ref string value)
+        public static int ToInt(string value)
         {
             return int.Parse(value);
         }
@@ -18,7 +18,7 @@
         /// <param name="value">string value</param>
         /// <param name="result">Int32 result</param>
         /// <returns>Int32 result</returns>
-        public static bool ToInt(ref string value, out int result)
+        public static bool ToInt(string value, out int result)
         {
             return int.TryParse(value, out result);
         }
@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="value">string value</param>
         /// <returns>bool value</returns>
-        public static bool ToBool(ref string value)
+        public static bool ToBool(string value)
         {
             var v = value.ToLower();
             if (v == "Y" || v == "y")
@@ -45,7 +45,7 @@
         /// <param name="value">bool value</param>
         /// <param name="format">string format</param>
         /// <returns>string result</returns>
-        public static string ToString(ref bool value, ref string format)
+        public static string ToString(bool value, ref string format)
         {
             if (format == "y/n" || format == "Y/N") return value ? "Yes" : "No";
             return value ? "True" : "False";

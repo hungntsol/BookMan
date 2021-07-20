@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using BookMan.ConsoleApp.Framework;
+using Newtonsoft.Json;
 
 namespace BookMan.ConsoleApp.Views
 {
@@ -38,6 +40,18 @@ namespace BookMan.ConsoleApp.Views
                     ViewHelp.WriteLine($"Id: {book.Id}, title: {book.Title}");
                 }
             }
+        }
+
+        /// <summary>
+        /// Write json data to file
+        /// </summary>
+        /// <param name="_path">string path</param>
+        public void RenderToFile(string _path)
+        {
+            ViewHelp.WriteLine($"Saving data to: {_path}");
+            var jsonData = JsonConvert.SerializeObject(books);
+            File.WriteAllText(_path, jsonData);
+            ViewHelp.WriteLine("Done");
         }
     }
 }

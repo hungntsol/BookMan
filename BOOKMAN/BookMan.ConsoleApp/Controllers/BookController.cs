@@ -17,7 +17,7 @@ namespace BookMan.ConsoleApp.Controllers
             _repository = new Repository(context);
         }
 
-        public void Single(int id)
+        public void Single(int id, string _path = "")
         {
             var book = _repository.Select(id);
             
@@ -25,6 +25,8 @@ namespace BookMan.ConsoleApp.Controllers
             BookSingleView bookSingleView = new BookSingleView(book);
             // render book view
             bookSingleView.Render();
+            
+            if (!string.IsNullOrEmpty(_path)) bookSingleView.RenderToFile(_path);
         }
 
         /// <summary>
@@ -49,11 +51,13 @@ namespace BookMan.ConsoleApp.Controllers
         /// <summary>
         /// View list of books
         /// </summary>
-        public void ListView()
+        public void ListView(string _path = "")
         {
             var books = _repository.Select();
             BookListView bookListView = new BookListView(books);
             bookListView.Render();
+
+            if (!string.IsNullOrEmpty(_path)) bookListView.RenderToFile(_path);
         }
     }
 }
