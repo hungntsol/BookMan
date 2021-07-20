@@ -8,7 +8,7 @@ namespace BookMan.ConsoleApp.Views
     /// <summary>
     /// View update book
     /// </summary>
-    public class BookUpdateView
+    internal class BookUpdateView
     {
         protected Book book = new Book();
 
@@ -26,6 +26,11 @@ namespace BookMan.ConsoleApp.Views
         /// </summary>
         public void Render()
         {
+            if (book == null)
+            {
+                ViewHelp.WriteLine("Can not find this book", ConsoleColor.Red);
+                return;
+            }
             ViewHelp.Write("Update book information", ConsoleColor.Green);
             Console.WriteLine();
 

@@ -1,4 +1,6 @@
-﻿namespace BookMan.ConsoleApp.Controllers
+﻿using BookMan.ConsoleApp.DataServices;
+
+namespace BookMan.ConsoleApp.Controllers
 {
     using Models; // Using class in models
     using Views; // Using class in views
@@ -8,20 +10,17 @@
     /// </summary>
     internal class BookController
     {
+        protected Repository _repository;
+
+        public BookController(SimpleDataAccess context)
+        {
+            _repository = new Repository(context);
+        }
+
         public void Single(int id)
         {
-            Book book = new Book()
-            {
-                Id = 1,
-                Authors = "JK. Rowling",
-                Title = "Harry Potter",
-                Publisher = "Van hoa",
-                Year = 2001,
-                Tags = "novel, harry potter",
-                Description = "Story abour harry potter",
-                Rating = 5,
-                Reading = false,
-            };
+            var book = _repository.Select(id);
+            
             // init book view
             BookSingleView bookSingleView = new BookSingleView(book);
             // render book view
@@ -40,11 +39,21 @@
         /// <summary>
         /// Update book information
         /// </summary>
-        public void Update()
+        public void Update(int id)
         {
-            Book book = new Book();
+            var book = _repository.Select(id);
             BookUpdateView updateView = new BookUpdateView(book);
             updateView.Render();
+        }
+
+        /// <summary>
+        /// View list of books
+        /// </summary>
+        public void ListView()
+        {
+            var books = _repository.Select();
+            BookListView bookListView = new BookListView(books);
+            bookListView.Render();
         }
     }
 }
