@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BookMan.ConsoleApp.Models;
 
 namespace BookMan.ConsoleApp.Framework
 {
@@ -35,6 +36,16 @@ namespace BookMan.ConsoleApp.Framework
                     this[p[0].Trim()] = p[1].Trim();
                 }
             }
+        }
+
+        public bool ConstainKey(string key)
+        {
+            if (_pairs.ContainsKey(key))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

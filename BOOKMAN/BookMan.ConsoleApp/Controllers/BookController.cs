@@ -1,4 +1,5 @@
 ﻿using BookMan.ConsoleApp.DataServices;
+using BookMan.ConsoleApp.Framework;
 
 namespace BookMan.ConsoleApp.Controllers
 {
@@ -8,7 +9,7 @@ namespace BookMan.ConsoleApp.Controllers
     /// <summary>
     /// Class book controller, get data from model and init view (internal)
     /// </summary>
-    internal class BookController
+    internal class BookController : ControllerBase
     {
         protected Repository _repository;
 
@@ -17,47 +18,64 @@ namespace BookMan.ConsoleApp.Controllers
             _repository = new Repository(context);
         }
 
-        public void Single(int id, string _path = "")
+        public void Single(int id, string path = "")
         {
-            var book = _repository.Select(id);
-            
-            // init book view
-            BookSingleView bookSingleView = new BookSingleView(book);
-            // render book view
-            bookSingleView.Render();
-            
-            if (!string.IsNullOrEmpty(_path)) bookSingleView.RenderJsonToFile(_path);
+            var model = _repository.Select(id);
+            Render(new BookSingleView(model), path);
         }
 
         /// <summary>
         /// Create a new book
         /// </summary>
-        public void Create()
+        public void Create(Book model = null)
         {
-            BookCreateView createView = new BookCreateView();
-            createView.Render();
+            if (model == null)
+            {
+                Render(new BookCreateView());
+                return;
+            }
+
+            _repository.Insert(model);
+            Success("Book created");
         }
 
         /// <summary>
         /// Update book information
         /// </summary>
-        public void Update(int id)
+        public void Update(int id, Book book = null)
         {
-            var book = _repository.Select(id);
-            BookUpdateView updateView = new BookUpdateView(book);
-            updateView.Render();
+            if (book == null)
+            {
+                var model = _repository.Select(id);
+                Render(new BookUpdateView(model));
+                return;
+            }
+
+            _repository.Update(id, book);
+            Success("Update success");
         }
 
         /// <summary>
         /// View list of books
         /// </summary>
-        public void ListView(string _path = "")
+        public void ListView(string path = "")
         {
-            var books = _repository.Select();
-            BookListView bookListView = new BookListView(books);
-            bookListView.Render();
+            var models = _repository.Select();
+            Render(new BookListView(models), path);
+        }
 
-            if (!string.IsNullOrEmpty(_path)) bookListView.RenderJsonToFile(_path);
+        public void Delete(int id, bool process = false)
+        {
+            if (process == false)
+            {
+                var model = _repository.Select(id);
+                Configuration($"Do you want to delete book: {model.Title} [Y] = yes\n", $"do delete ? id = {model.Id}");
+            }
+            else
+            {
+                _repository.Delete(id);
+                Success("Delete book success");
+            }
         }
     }
 }

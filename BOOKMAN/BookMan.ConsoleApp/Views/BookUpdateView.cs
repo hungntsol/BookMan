@@ -8,7 +8,7 @@ namespace BookMan.ConsoleApp.Views
     /// <summary>
     /// View update book
     /// </summary>
-    internal class BookUpdateView : ViewBase
+    internal class BookUpdateView : ViewBase<Book>
     {
         /// <summary>
         /// Constructor init update book view
@@ -19,7 +19,7 @@ namespace BookMan.ConsoleApp.Views
         /// <summary>
         /// Update book render method
         /// </summary>
-        public void Render()
+        public override void Render()
         {
             var model = base.model as Book;
             
@@ -33,14 +33,14 @@ namespace BookMan.ConsoleApp.Views
             Console.WriteLine();
 
             string authors = ViewHelp.InputString($"Authors: ", model.Authors);
-            
             string title = ViewHelp.InputString("Title: ", model.Title);
-            
             string publisher = ViewHelp.InputString(("Publisher: "), model.Publisher);
-            
             int year = ViewHelp.InputInt("Year: ", model.Year);
-
             string description = ViewHelp.InputString($"Description: ", model.Description);
+
+            var req = "do update ? " +
+                      $"id = {model.Id} & title = {title} & authors = {authors} & publisher = {publisher} & year = {year} & description = {description}";
+            _router.Forward(req);
         }
     }
 }

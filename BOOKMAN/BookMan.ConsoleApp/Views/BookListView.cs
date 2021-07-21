@@ -10,7 +10,7 @@ namespace BookMan.ConsoleApp.Views
     /// <summary>
     /// View list of books
     /// </summary>
-    internal class BookListView : ViewBase
+    internal class BookListView : ViewBase<Book[]>
     {
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace BookMan.ConsoleApp.Views
         /// <summary>
         /// View list of book render method
         /// </summary>
-        public void Render()
+        public override void Render()
         {
             if (((Book[]) model).Length == 0)
             {

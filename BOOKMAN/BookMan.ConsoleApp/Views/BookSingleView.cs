@@ -10,7 +10,7 @@ namespace BookMan.ConsoleApp.Views
     /// <summary>
     /// View information of a book(internal)
     /// </summary>
-    internal class BookSingleView : ViewBase
+    internal class BookSingleView : ViewBase<Book>
     {
         /// <summary>
         /// Constructor for BookSingleView class
@@ -21,7 +21,7 @@ namespace BookMan.ConsoleApp.Views
         /// <summary>
         /// View book information render method
         /// </summary>
-        public void Render()
+        public override void Render()
         {
             if (model == null) // Check book is null or not
             { 
