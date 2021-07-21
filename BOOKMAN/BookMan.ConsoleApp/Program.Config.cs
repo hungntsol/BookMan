@@ -12,7 +12,7 @@ namespace BookMan.ConsoleApp
     {
         private static void ConfigRouter()
         {
-            SimpleDataAccess context = new SimpleDataAccess();
+            IBookDataAccess context = new JsonDataAccess();
             BookController bookController = new BookController(context);
             ShellController shellController = new ShellController(context);
         
@@ -37,12 +37,19 @@ namespace BookMan.ConsoleApp
             r.Register("single", p => bookController.Single(int.Parse(p["id"])));
             r.Register("single file", p => bookController.Single(int.Parse(p["id"]), p["path"]));
             
+            // Reading book
+            r.Register("list reading", p => bookController.ListViewReading());
+            r.Register("mark", p => bookController.MarkBookReading(Extension.ToInt(p["id"]), true));
+            r.Register("unmark", p => bookController.MarkBookReading(Extension.ToInt(p["id"]), false));
+            
             // Delete a book (id)
             r.Register("delete", p => bookController.Delete(Extension.ToInt(p["id"])));
             r.Register("do delete", p => bookController.Delete(Extension.ToInt(p["id"]), true));
             
+            // Shell router
             r.Register("add shell", p => shellController.Shell(p["path"], p["ext"]));
-            
+            r.Register("save shell", p => shellController.Save());
+            r.Register("read", p => shellController.Read(Extension.ToInt(p["id"])));
             
             Models.Book toBook(Parameter p)
             {

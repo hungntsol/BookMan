@@ -13,7 +13,7 @@ namespace BookMan.ConsoleApp.Controllers
     {
         protected Repository _repository;
 
-        public BookController(SimpleDataAccess context)
+        public BookController(IBookDataAccess context)
         {
             _repository = new Repository(context);
         }
@@ -64,6 +64,33 @@ namespace BookMan.ConsoleApp.Controllers
             Render(new BookListView(models), path);
         }
 
+        public void MarkBookReading(int id, bool reading = false)
+        {
+            var model = _repository.Select(id);
+            if (model == null)
+            {
+                Error($"Book not found");
+                return;
+            }
+
+            model.Reading = reading;
+            Success($"The book {model.Title} is marked as {(reading ? "reading" : "unread")}");
+        }
+
+        /// <summary>
+        /// View list of books are in reading mode
+        /// </summary>
+        public void ListViewReading()
+        {
+            var models = _repository.SelectReading();
+            Render(new BookListView(models));
+        }
+
+        /// <summary>
+        /// Delete a book
+        /// </summary>
+        /// <param name="id">Int</param>
+        /// <param name="process">Bool</param>
         public void Delete(int id, bool process = false)
         {
             if (process == false)

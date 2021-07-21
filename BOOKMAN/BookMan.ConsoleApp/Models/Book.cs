@@ -5,6 +5,7 @@ namespace BookMan.ConsoleApp.Models
     /// <summary>
     ///  Describe book class
     /// </summary>
+    [Serializable]
     public class Book
     {
         private int _id;
