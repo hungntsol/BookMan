@@ -12,9 +12,10 @@ namespace BookMan.ConsoleApp
     {
         private static void ConfigRouter()
         {
-            IBookDataAccess context = new JsonDataAccess();
+            IBookDataAccess context = Config.Instance.BookDataAccess;
             BookController bookController = new BookController(context);
             ShellController shellController = new ShellController(context);
+            ConfigController configController = new ConfigController();
         
             Router r = Router.Instance;
         
@@ -50,6 +51,15 @@ namespace BookMan.ConsoleApp
             r.Register("add shell", p => shellController.Shell(p["path"], p["ext"]));
             r.Register("save shell", p => shellController.Save());
             r.Register("read", p => shellController.Read(Extension.ToInt(p["id"])));
+            
+            // Stats
+            r.Register("stats", p => bookController.ListStats());
+            
+            // Config controller
+            r.Register("config promp text", p => configController.ConfigPrompText(p["text"]));
+            r.Register("config promp color", p => configController.ConfigPrompColor(p["color"]));
+            r.Register("current data", p => configController.CurrentDataAccess());
+            r.Register("config data", p => configController.ConfigDataAccess(p["da"], p["df"]));
             
             Models.Book toBook(Parameter p)
             {

@@ -86,6 +86,12 @@ namespace BookMan.ConsoleApp.Controllers
             Render(new BookListView(models));
         }
 
+        public void ListStats()
+        {
+            var models = _repository.Stats();
+            Render(new BookStatsView(models));
+        }
+
         /// <summary>
         /// Delete a book
         /// </summary>

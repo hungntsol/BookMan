@@ -30,6 +30,10 @@ namespace BookMan.ConsoleApp.Framework
             _helpTable = new Dictionary<string, string>();
         }
 
+        /// <summary>
+        /// Push all route command to table
+        /// </summary>
+        /// <returns>StringBuilder</returns>
         public string GetRoutes()
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -41,12 +45,23 @@ namespace BookMan.ConsoleApp.Framework
             return stringBuilder.ToString();
         }
 
+        /// <summary>
+        /// Push all help command to table
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string GetHelp(string key)
         {
             if (_helpTable.ContainsKey(key)) return _helpTable[key];
             else return "Document not exited";
         }
 
+        /// <summary>
+        /// Create route
+        /// </summary>
+        /// <param name="route">string</param>
+        /// <param name="action">Parameter</param>
+        /// <param name="help">string</param>
         public void Register(string route, ControllerAction action, string help = "")
         {
             if (!_rountingTable.ContainsKey(route))
@@ -56,6 +71,11 @@ namespace BookMan.ConsoleApp.Framework
             }
         }
 
+        /// <summary>
+        /// Direct command
+        /// </summary>
+        /// <param name="request">string</param>
+        /// <exception cref="Exception">Command not found</exception>
         public void Forward(string request)
         {
             var req = new Request(request);

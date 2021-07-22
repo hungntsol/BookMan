@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BookMan.ConsoleApp.DataServices
@@ -45,16 +47,7 @@ namespace BookMan.ConsoleApp.DataServices
         /// <returns></returns>
         public Book Select(int id)
         {
-            foreach (var book in _context.Books)
-            {
-                if (book.Id == id)
-                {
-                    return book;
-                }
-            }
-
-            // return null if book's not exited
-            return null;
+            return _context.Books.FirstOrDefault(book => book.Id == id);
         }
 
         /// <summary>
@@ -64,22 +57,12 @@ namespace BookMan.ConsoleApp.DataServices
         /// <returns>Book[]</returns>
         public Book[] Select(string key)
         {
-            var temp = new List<Book>();
             key = key.ToLower();
-            foreach (var book in _context.Books)
-            {
-                var logic = book.Title.Contains(key) ||
-                                book.Authors.Contains(key) ||
-                                book.Description.Contains(key) ||
-                                book.Publisher.Contains(key) ||
-                                book.Tags.Contains(key);
-                if (logic)
-                {
-                    temp.Add(book);
-                }
-            }
-
-            return temp.ToArray();
+            return _context.Books.Where(book => book.Title.Contains(key) ||
+                                                book.Authors.Contains(key) ||
+                                                book.Description.Contains(key) ||
+                                                book.Publisher.Contains(key) ||
+                                                book.Tags.Contains(key)).ToArray();
         }
 
         /// <summary>
@@ -88,13 +71,17 @@ namespace BookMan.ConsoleApp.DataServices
         /// <returns>Book[]</returns>
         public Book[] SelectReading()
         {
-            var temp = new List<Book>();
-            foreach (var book in _context.Books)
-            {
-                if (book.Reading) temp.Add(book);
-            }
+            return _context.Books.Where(book => book.Reading == true).ToArray();
+        }
 
-            return temp.ToArray();
+        /// <summary>
+        /// Group books by folder
+        /// </summary>
+        /// <param name="key">string</param>
+        /// <returns>IEnumerable</returns>
+        public IEnumerable<IGrouping<string, Book>> Stats(string key = "folder")
+        {
+            return _context.Books.GroupBy(book => Path.GetDirectoryName(book.File));
         }
 
         /// <summary>
@@ -103,8 +90,7 @@ namespace BookMan.ConsoleApp.DataServices
         /// <param name="book">Book</param>
         public void Insert(Book book)
         {
-            int lastIndex = _context.Books.Count - 1;
-            var id = lastIndex < 0 ? 1 : lastIndex + 1;
+            int id = _context.Books.Count == 0 ? 1 : _context.Books.Max(b => b.Id) + 1;
             book.Id = id;
             _context.Books.Add(book);
         }

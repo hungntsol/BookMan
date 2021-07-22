@@ -13,3 +13,4 @@ D:\Web\C#\BookMan\BOOKMAN\BookMan.ConsoleApp\obj\Release\BookMan.ConsoleApp.pdb
 D:\Web\C#\BookMan\BOOKMAN\BookMan.ConsoleApp\bin\Release\Newtonsoft.Json.dll
 D:\Web\C#\BookMan\BOOKMAN\BookMan.ConsoleApp\bin\Release\Newtonsoft.Json.xml
 D:\Web\C#\BookMan\BOOKMAN\BookMan.ConsoleApp\obj\Release\BookMan.ConsoleApp.csproj.CopyComplete
+D:\Web\C#\BookMan\BOOKMAN\BookMan.ConsoleApp\bin\Release\BookMan.ConsoleApp.exe.config
